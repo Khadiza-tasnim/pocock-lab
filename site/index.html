@@ -29,7 +29,7 @@
   </main>
   <script type="module">
     import { parseCsv } from "./src/csv.js";
-    import { totalRides, ridesByCity, ridesByMonth } from "./src/stats.js";
+    import { totalRides, ridesByCity, ridesByMonth, monthLabel } from "./src/stats.js";
 
     const response = await fetch("./data/rides.csv");
     const rows = parseCsv(await response.text());
@@ -60,7 +60,7 @@
       const bar = document.createElement("div");
       bar.className = "bar";
       bar.style.width = `${(rides / monthMax) * 100}%`;
-      bar.textContent = `${month} ${rides.toLocaleString()}`;
+      bar.textContent = `${monthLabel(month)} ${rides.toLocaleString()}`;
       monthChart.appendChild(bar);
     }
   </script>
