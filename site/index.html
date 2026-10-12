@@ -22,10 +22,14 @@
       </table>
       <div id="chart" class="bars" role="img" aria-label="Bar chart of rides by city"></div>
     </section>
+    <section>
+      <h2>Rides by month</h2>
+      <div id="month-chart" class="bars" role="img" aria-label="Bar chart of total rides by month"></div>
+    </section>
   </main>
   <script type="module">
     import { parseCsv } from "./src/csv.js";
-    import { totalRides, ridesByCity } from "./src/stats.js";
+    import { totalRides, ridesByCity, ridesByMonth } from "./src/stats.js";
 
     const response = await fetch("./data/rides.csv");
     const rows = parseCsv(await response.text());
@@ -47,6 +51,17 @@
       bar.style.width = `${(rides / max) * 100}%`;
       bar.textContent = `${city} ${rides.toLocaleString()}`;
       chart.appendChild(bar);
+    }
+
+    const byMonth = ridesByMonth(rows);
+    const monthChart = document.getElementById("month-chart");
+    const monthMax = Math.max(...byMonth.map((d) => d.rides));
+    for (const { month, rides } of byMonth) {
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      bar.style.width = `${(rides / monthMax) * 100}%`;
+      bar.textContent = `${month} ${rides.toLocaleString()}`;
+      monthChart.appendChild(bar);
     }
   </script>
 </body>
