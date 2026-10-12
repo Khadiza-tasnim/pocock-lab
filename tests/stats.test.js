@@ -28,7 +28,7 @@ test("ridesByMonth sums every city's rides in a month into one monthly total", (
   assert.deepEqual(ridesByMonth(july), [{ month: "2026-07", rides: 339 }]);
 });
 
-test("ridesByMonth counts rides given as text or as numbers", () => {
+test("ridesByMonth sums rides given as text or as numbers", () => {
   const mixed = [
     { date: "2026-08-01", city: "Boston", rides: "117" },
     { date: "2026-08-02", city: "Boston", rides: 120 },
