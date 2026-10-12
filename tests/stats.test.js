@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { totalRides, ridesByCity, ridesByMonth } from "../site/src/stats.js";
+import { totalRides, ridesByCity, ridesByMonth, monthLabel } from "../site/src/stats.js";
 
 const rows = [
   { date: "2026-07-01", city: "Miami", rides: "10" },
@@ -63,4 +63,13 @@ test("ridesByMonth keeps the same month in different years apart", () => {
 
 test("ridesByMonth returns no months for no rows", () => {
   assert.deepEqual(ridesByMonth([]), []);
+});
+
+test("monthLabel names a month in English with its year", () => {
+  assert.equal(monthLabel("2026-07"), "July 2026");
+});
+
+test("monthLabel names the first and last months of the year", () => {
+  assert.equal(monthLabel("2027-01"), "January 2027");
+  assert.equal(monthLabel("2026-12"), "December 2026");
 });

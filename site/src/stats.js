@@ -27,3 +27,14 @@ export function ridesByMonth(rows) {
     .map(([month, rides]) => ({ month, rides }))
     .sort((a, b) => a.month.localeCompare(b.month));
 }
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+// Display text for a month ("2026-07" -> "July 2026"), always in English.
+export function monthLabel(month) {
+  const [year, monthNumber] = month.split("-");
+  return `${MONTH_NAMES[Number(monthNumber) - 1]} ${year}`;
+}
