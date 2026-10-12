@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 .claude/settings.local.json
+
+# Per-machine symlinks to .agents/skills (absolute paths; recreate with: npx skills add mattpocock/skills)
+.claude/skills/
