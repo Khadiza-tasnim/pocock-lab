@@ -14,3 +14,16 @@ export function ridesByCity(rows) {
     .map(([city, rides]) => ({ city, rides }))
     .sort((a, b) => a.city.localeCompare(b.city));
 }
+
+// Monthly total of rides across all cities, one entry per month ("YYYY-MM"),
+// in date order ("YYYY-MM" text sorts chronologically).
+export function ridesByMonth(rows) {
+  const totals = new Map();
+  for (const row of rows) {
+    const month = row.date.slice(0, 7);
+    totals.set(month, (totals.get(month) ?? 0) + Number(row.rides));
+  }
+  return [...totals.entries()]
+    .map(([month, rides]) => ({ month, rides }))
+    .sort((a, b) => a.month.localeCompare(b.month));
+}
