@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="100" viewBox="0 0 130 100" role="img" aria-label="Yellow taxi">
+<rect x="52" y="8" width="26" height="10" rx="2" fill="#EF9F27"/>
+<path d="M30 40 L42 20 L88 20 L100 40 Z" fill="#FAC775"/>
+<rect x="46" y="24" width="16" height="13" rx="2" fill="#B5D4F4"/>
+<rect x="68" y="24" width="16" height="13" rx="2" fill="#B5D4F4"/>
+<rect x="10" y="40" width="110" height="34" rx="8" fill="#FAC775"/>
+<g fill="#2C2C2A">
+<rect x="14" y="52" width="8" height="5"/><rect x="30" y="52" width="8" height="5"/><rect x="46" y="52" width="8" height="5"/><rect x="62" y="52" width="8" height="5"/><rect x="78" y="52" width="8" height="5"/><rect x="94" y="52" width="8" height="5"/><rect x="110" y="52" width="6" height="5"/>
+<rect x="22" y="57" width="8" height="5"/><rect x="38" y="57" width="8" height="5"/><rect x="54" y="57" width="8" height="5"/><rect x="70" y="57" width="8" height="5"/><rect x="86" y="57" width="8" height="5"/><rect x="102" y="57" width="8" height="5"/>
+</g>
+<circle cx="35" cy="76" r="11" fill="#2C2C2A"/><circle cx="35" cy="76" r="4" fill="#B4B2A9"/>
+<circle cx="95" cy="76" r="11" fill="#2C2C2A"/><circle cx="95" cy="76" r="4" fill="#B4B2A9"/>
+</svg>
