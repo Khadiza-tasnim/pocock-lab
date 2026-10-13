@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { totalRides, ridesByCity, ridesByMonth, monthLabel, busiestDayByCity } from "../site/src/stats.js";
+import { totalRides, ridesByCity, ridesByMonth, monthLabel, busiestDayByCity, dayLabel } from "../site/src/stats.js";
 
 const rows = [
   { date: "2026-07-01", city: "Miami", rides: "10" },
@@ -148,4 +148,30 @@ test("busiestDayByCity gives the same result whatever order the rows arrive in",
   ];
   assert.deepEqual(busiestDayByCity(days), expected);
   assert.deepEqual(busiestDayByCity([...days].reverse()), expected);
+});
+
+test("dayLabel names a day with its weekday, month, day and year in English", () => {
+  assert.equal(dayLabel("2026-08-23"), "Sun, Aug 23, 2026");
+});
+
+test("dayLabel drops the leading zero from a single-digit day", () => {
+  assert.equal(dayLabel("2026-08-02"), "Sun, Aug 2, 2026");
+});
+
+test("dayLabel names days across months and weekdays", () => {
+  assert.equal(dayLabel("2026-07-01"), "Wed, Jul 1, 2026");
+  assert.equal(dayLabel("2026-08-15"), "Sat, Aug 15, 2026");
+  assert.equal(dayLabel("2026-09-30"), "Wed, Sep 30, 2026");
+  assert.equal(dayLabel("2027-01-01"), "Fri, Jan 1, 2027");
+});
+
+test("dayLabel gives the date's own weekday for a viewer west of UTC", () => {
+  const original = process.env.TZ;
+  process.env.TZ = "America/Los_Angeles";
+  try {
+    assert.equal(dayLabel("2026-08-23"), "Sun, Aug 23, 2026");
+  } finally {
+    if (original === undefined) delete process.env.TZ;
+    else process.env.TZ = original;
+  }
 });
