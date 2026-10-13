@@ -56,3 +56,14 @@ export function busiestDayByCity(rows) {
     .map((best) => ({ ...best, dates: best.dates.sort() }))
     .sort((a, b) => a.city.localeCompare(b.city));
 }
+
+const WEEKDAY_ABBREVIATIONS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+// Display text for a day ("2026-08-23" -> "Sun, Aug 23, 2026"), always in English.
+// The weekday is worked out in UTC so it doesn't shift with the viewer's time zone.
+export function dayLabel(date) {
+  const [year, monthNumber, day] = date.split("-").map(Number);
+  const weekday = new Date(Date.UTC(year, monthNumber - 1, day)).getUTCDay();
+  const monthAbbreviation = MONTH_NAMES[monthNumber - 1].slice(0, 3);
+  return `${WEEKDAY_ABBREVIATIONS[weekday]}, ${monthAbbreviation} ${day}, ${year}`;
+}
