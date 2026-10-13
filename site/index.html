@@ -36,7 +36,7 @@
   </main>
   <script type="module">
     import { parseCsv } from "./src/csv.js";
-    import { totalRides, ridesByCity, ridesByMonth, monthLabel, busiestDayByCity } from "./src/stats.js";
+    import { totalRides, ridesByCity, ridesByMonth, monthLabel, busiestDayByCity, dayLabel } from "./src/stats.js";
 
     const response = await fetch("./data/rides.csv");
     const rows = parseCsv(await response.text());
@@ -74,7 +74,7 @@
     const busiestBody = document.querySelector("#busiest-day tbody");
     for (const { city, rides, dates } of busiestDayByCity(rows)) {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${city}</td><td>${dates.join("<br>")}</td><td>${rides.toLocaleString()}</td>`;
+      tr.innerHTML = `<td>${city}</td><td>${dates.map(dayLabel).join("<br>")}</td><td>${rides.toLocaleString()}</td>`;
       busiestBody.appendChild(tr);
     }
   </script>
