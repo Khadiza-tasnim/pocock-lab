@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { totalRides, ridesByCity, ridesByMonth, monthLabel } from "../site/src/stats.js";
+import { totalRides, ridesByCity, ridesByMonth, monthLabel, busiestDayByCity } from "../site/src/stats.js";
 
 const rows = [
   { date: "2026-07-01", city: "Miami", rides: "10" },
@@ -72,4 +72,80 @@ test("monthLabel names a month in English with its year", () => {
 test("monthLabel names the first and last months of the year", () => {
   assert.equal(monthLabel("2027-01"), "January 2027");
   assert.equal(monthLabel("2026-12"), "December 2026");
+});
+
+test("busiestDayByCity gives each city the day it had its highest rides", () => {
+  const days = [
+    { date: "2026-07-01", city: "Boston", rides: 113 },
+    { date: "2026-07-02", city: "Boston", rides: 165 },
+    { date: "2026-07-01", city: "Miami", rides: 200 },
+    { date: "2026-07-02", city: "Miami", rides: 144 },
+  ];
+  assert.deepEqual(busiestDayByCity(days), [
+    { city: "Boston", rides: 165, dates: ["2026-07-02"] },
+    { city: "Miami", rides: 200, dates: ["2026-07-01"] },
+  ]);
+});
+
+test("busiestDayByCity keeps every tied busiest day, in date order", () => {
+  const tied = [
+    { date: "2026-08-29", city: "Boston", rides: 165 },
+    { date: "2026-08-02", city: "Boston", rides: 164 },
+    { date: "2026-08-23", city: "Boston", rides: 165 },
+  ];
+  assert.deepEqual(busiestDayByCity(tied), [
+    { city: "Boston", rides: 165, dates: ["2026-08-23", "2026-08-29"] },
+  ]);
+});
+
+test("busiestDayByCity lists cities in alphabetical order", () => {
+  const days = [
+    { date: "2026-07-01", city: "Miami", rides: 144 },
+    { date: "2026-07-01", city: "Denver", rides: 82 },
+    { date: "2026-07-01", city: "Boston", rides: 113 },
+  ];
+  assert.deepEqual(
+    busiestDayByCity(days).map((d) => d.city),
+    ["Boston", "Denver", "Miami"],
+  );
+});
+
+test("busiestDayByCity compares rides given as text by number, not as text", () => {
+  const mixed = [
+    { date: "2026-07-01", city: "Boston", rides: "99" },
+    { date: "2026-07-02", city: "Boston", rides: "100" },
+    { date: "2026-07-03", city: "Boston", rides: 98 },
+  ];
+  assert.deepEqual(busiestDayByCity(mixed), [
+    { city: "Boston", rides: 100, dates: ["2026-07-02"] },
+  ]);
+});
+
+test("busiestDayByCity uses each city's own rides, not the day's total across cities", () => {
+  const days = [
+    { date: "2026-07-01", city: "Boston", rides: 50 },
+    { date: "2026-07-01", city: "Miami", rides: 60 },
+    { date: "2026-07-02", city: "Boston", rides: 70 },
+    { date: "2026-07-02", city: "Miami", rides: 10 },
+  ];
+  assert.deepEqual(busiestDayByCity(days), [
+    { city: "Boston", rides: 70, dates: ["2026-07-02"] },
+    { city: "Miami", rides: 60, dates: ["2026-07-01"] },
+  ]);
+});
+
+test("busiestDayByCity gives the same result whatever order the rows arrive in", () => {
+  const days = [
+    { date: "2026-08-23", city: "Boston", rides: 165 },
+    { date: "2026-08-02", city: "Denver", rides: 115 },
+    { date: "2026-08-29", city: "Boston", rides: 165 },
+    { date: "2026-08-03", city: "Denver", rides: 90 },
+    { date: "2026-08-01", city: "Boston", rides: 120 },
+  ];
+  const expected = [
+    { city: "Boston", rides: 165, dates: ["2026-08-23", "2026-08-29"] },
+    { city: "Denver", rides: 115, dates: ["2026-08-02"] },
+  ];
+  assert.deepEqual(busiestDayByCity(days), expected);
+  assert.deepEqual(busiestDayByCity([...days].reverse()), expected);
 });

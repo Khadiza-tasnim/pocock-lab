@@ -38,3 +38,21 @@ export function monthLabel(month) {
   const [year, monthNumber] = month.split("-");
   return `${MONTH_NAMES[Number(monthNumber) - 1]} ${year}`;
 }
+
+// Each city's busiest day: its highest rides on one day across all rows,
+// with every date that reached that count.
+export function busiestDayByCity(rows) {
+  const busiest = new Map();
+  for (const row of rows) {
+    const rides = Number(row.rides);
+    const best = busiest.get(row.city);
+    if (!best || rides > best.rides) {
+      busiest.set(row.city, { city: row.city, rides, dates: [row.date] });
+    } else if (rides === best.rides) {
+      best.dates.push(row.date);
+    }
+  }
+  return [...busiest.values()]
+    .map((best) => ({ ...best, dates: best.dates.sort() }))
+    .sort((a, b) => a.city.localeCompare(b.city));
+}
