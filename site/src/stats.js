@@ -64,6 +64,6 @@ const WEEKDAY_ABBREVIATIONS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export function dayLabel(date) {
   const [year, monthNumber, day] = date.split("-").map(Number);
   const weekday = new Date(Date.UTC(year, monthNumber - 1, day)).getUTCDay();
-  const month = MONTH_NAMES[monthNumber - 1].slice(0, 3);
-  return `${WEEKDAY_ABBREVIATIONS[weekday]}, ${month} ${day}, ${year}`;
+  const monthAbbreviation = MONTH_NAMES[monthNumber - 1].slice(0, 3);
+  return `${WEEKDAY_ABBREVIATIONS[weekday]}, ${monthAbbreviation} ${day}, ${year}`;
 }
