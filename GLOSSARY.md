@@ -15,3 +15,7 @@ _Avoid_: Period, month name alone
 **Monthly total**:
 The sum of rides across all cities on every day of one month, not adjusted for how many days the month has.
 _Avoid_: Monthly average, rides per month per city
+
+**Busiest day**:
+The date on which one city had its highest Rides across all the data. When several dates tie for that highest count, each of them is a busiest day for that city.
+_Avoid_: Peak day, top day, record day
