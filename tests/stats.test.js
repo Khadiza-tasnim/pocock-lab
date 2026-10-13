@@ -133,3 +133,19 @@ test("busiestDayByCity uses each city's own rides, not the day's total across ci
     { city: "Miami", rides: 60, dates: ["2026-07-01"] },
   ]);
 });
+
+test("busiestDayByCity gives the same result whatever order the rows arrive in", () => {
+  const days = [
+    { date: "2026-08-23", city: "Boston", rides: 165 },
+    { date: "2026-08-02", city: "Denver", rides: 115 },
+    { date: "2026-08-29", city: "Boston", rides: 165 },
+    { date: "2026-08-03", city: "Denver", rides: 90 },
+    { date: "2026-08-01", city: "Boston", rides: 120 },
+  ];
+  const expected = [
+    { city: "Boston", rides: 165, dates: ["2026-08-23", "2026-08-29"] },
+    { city: "Denver", rides: 115, dates: ["2026-08-02"] },
+  ];
+  assert.deepEqual(busiestDayByCity(days), expected);
+  assert.deepEqual(busiestDayByCity([...days].reverse()), expected);
+});
